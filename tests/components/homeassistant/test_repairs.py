@@ -3,9 +3,13 @@
 from http import HTTPStatus
 
 from homeassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.issue_handler import (
     async_process_repairs_platforms,
 )
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.websocket_api import (
     RepairsFlowIndexView,
     RepairsFlowResourceView,

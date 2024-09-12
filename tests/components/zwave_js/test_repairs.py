@@ -7,9 +7,12 @@ from unittest.mock import patch
 from zwave_js_server.event import Event
 from zwave_js_server.model.node import Node
 
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.issue_handler import (
     async_process_repairs_platforms,
 )
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.websocket_api import (
     RepairsFlowIndexView,
     RepairsFlowResourceView,

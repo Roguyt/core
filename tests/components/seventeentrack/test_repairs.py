@@ -6,6 +6,8 @@ from unittest.mock import AsyncMock
 from freezegun.api import FrozenDateTimeFactory
 
 from homeassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.websocket_api import RepairsFlowIndexView
 from homeassistant.components.seventeentrack import DOMAIN
 from homeassistant.core import HomeAssistant

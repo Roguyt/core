@@ -5,9 +5,13 @@ from unittest.mock import MagicMock
 
 from homeassistant.components.ecobee import DOMAIN
 from homeassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.issue_handler import (
     async_process_repairs_platforms,
 )
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.websocket_api import (
     RepairsFlowIndexView,
     RepairsFlowResourceView,

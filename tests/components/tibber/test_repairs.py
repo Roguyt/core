@@ -4,6 +4,8 @@ from http import HTTPStatus
 from unittest.mock import MagicMock
 
 from homeassistant.components.recorder import Recorder
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.websocket_api import (
     RepairsFlowIndexView,
     RepairsFlowResourceView,

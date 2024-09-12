@@ -5,9 +5,13 @@ from __future__ import annotations
 from http import HTTPStatus
 
 from homeassistant.components.doorbird.const import DOMAIN
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.issue_handler import (
     async_process_repairs_platforms,
 )
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.websocket_api import (
     RepairsFlowIndexView,
     RepairsFlowResourceView,

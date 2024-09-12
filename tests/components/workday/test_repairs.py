@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from http import HTTPStatus
 
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.websocket_api import (
     RepairsFlowIndexView,
     RepairsFlowResourceView,

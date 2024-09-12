@@ -5,6 +5,8 @@ from http import HTTPStatus
 from homeassistant.components.knx.const import DOMAIN, KNX_ADDRESS
 from homeassistant.components.knx.schema import NotifySchema
 from homeassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.websocket_api import (
     RepairsFlowIndexView,
     RepairsFlowResourceView,

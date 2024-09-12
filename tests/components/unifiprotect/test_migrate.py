@@ -7,6 +7,8 @@ from unittest.mock import patch
 from uiprotect.data import Camera
 
 from homeassistant.components.automation import DOMAIN as AUTOMATION_DOMAIN
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.issue_handler import (
     async_process_repairs_platforms,
 )

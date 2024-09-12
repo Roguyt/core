@@ -8,9 +8,12 @@ from unittest.mock import AsyncMock, Mock
 
 from uiprotect.data import Camera, CloudAccount, ModelType, Version
 
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.issue_handler import (
     async_process_repairs_platforms,
 )
+
+# pylint: disable-next=hass-component-root-import
 from homeassistant.components.repairs.websocket_api import (
     RepairsFlowIndexView,
     RepairsFlowResourceView,
