@@ -27,14 +27,11 @@ class ViCareEntity(Entity):
     ) -> None:
         """Initialize the entity."""
         gateway_serial = device_config.getConfig().serial
-#<<<<<<< HEAD
-#        device_id = device_config.getId()
-#
-#        identifier = f"{gateway_serial}_{device_serial if device_serial is not None else device_id}"
-#=======
+        device_id = device_config.getId()
+
         device_serial = device.getSerial().replace("zigbee-", "zigbee_")
-        identifier = f"{gateway_serial}_{device_serial}"
-#>>>>>>> 100503ce8bb99147d41d3f691be893adf57ed842
+
+        identifier = f"{gateway_serial}_{device_serial if device_serial is not None else device_id}"
 
         self._api: PyViCareDevice | PyViCareHeatingDeviceComponent = (
             component if component else device
