@@ -31,6 +31,8 @@ class ViCareEntity(Entity):
 
         identifier = f"{gateway_serial}_{device_serial if device_serial is not None else device_id}"
 
+        device_serial = device.getSerial().replace("zigbee-", "zigbee_")
+
         self._api: PyViCareDevice | PyViCareHeatingDeviceComponent = (
             component if component else device
         )
