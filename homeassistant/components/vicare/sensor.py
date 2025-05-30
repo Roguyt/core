@@ -88,6 +88,12 @@ class ViCareSensorEntityDescription(SensorEntityDescription, ViCareRequiredKeysM
 
 GLOBAL_SENSORS: tuple[ViCareSensorEntityDescription, ...] = (
     ViCareSensorEntityDescription(
+        key="name",
+        translation_key="name",
+        value_getter=lambda api: api.getName(),
+        device_class=TextDeviceClass.TEXT,
+    ),
+    ViCareSensorEntityDescription(
         key="outside_temperature",
         translation_key="outside_temperature",
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
