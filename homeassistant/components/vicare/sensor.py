@@ -36,6 +36,7 @@ from homeassistant.const import (
     UnitOfTime,
     UnitOfVolume,
     UnitOfVolumeFlowRate,
+    CONCENTRATION_PARTS_PER_MILLION
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -56,7 +57,7 @@ from .utils import (
     get_circuits,
     get_compressors,
     get_device_serial,
-    is_supported,
+    is_supported, get_rooms,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -85,14 +86,12 @@ class ViCareSensorEntityDescription(SensorEntityDescription, ViCareRequiredKeysM
 
     unit_getter: Callable[[PyViCareDevice], str | None] | None = None
 
+    # Optional functions
+    name_fn_getter: Callable[[PyViCareDevice], str | None] = lambda obj: None
+    """Entity name function, can be used to extend entity name beyond device name."""
+
 
 GLOBAL_SENSORS: tuple[ViCareSensorEntityDescription, ...] = (
-    ViCareSensorEntityDescription(
-        key="name",
-        translation_key="name",
-        value_getter=lambda api: api.getName(),
-        device_class=TextDeviceClass.TEXT,
-    ),
     ViCareSensorEntityDescription(
         key="outside_temperature",
         translation_key="outside_temperature",
@@ -1046,6 +1045,33 @@ COMPRESSOR_SENSORS: tuple[ViCareSensorEntityDescription, ...] = (
     ),
 )
 
+ROOM_SENSORS: tuple[ViCareSensorEntityDescription, ...]  = (
+        ViCareSensorEntityDescription(
+        key="room_temperature",
+        name_fn_getter=lambda api: f"{api.getName()} Temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        device_class=SensorDeviceClass.TEMPERATURE,
+        state_class=SensorStateClass.MEASUREMENT,
+        value_getter=lambda api: api.getSensorTemperature(),
+    ),
+    ViCareSensorEntityDescription(
+        key="room_humidity",
+        name_fn_getter=lambda api: f"{api.getName()} Humidity",
+        device_class=SensorDeviceClass.HUMIDITY,
+        native_unit_of_measurement=PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+        value_getter=lambda api: api.getSensorHumidity(),
+    ),
+    ViCareSensorEntityDescription(
+        key="room_co2",
+        name_fn_getter=lambda api: f"{api.getName()} CO2",
+        device_class=SensorDeviceClass.CO2,
+        native_unit_of_measurement=CONCENTRATION_PARTS_PER_MILLION,
+        state_class=SensorStateClass.MEASUREMENT,
+        value_getter=lambda api: api.getSensorCO2(),
+    ),
+)
+
 
 def _build_entities(
     device_list: list[ViCareDevice],
@@ -1070,6 +1096,7 @@ def _build_entities(
             (get_circuits(device.api), CIRCUIT_SENSORS),
             (get_burners(device.api), BURNER_SENSORS),
             (get_compressors(device.api), COMPRESSOR_SENSORS),
+            (get_rooms(device.api), ROOM_SENSORS)
         ):
             entities.extend(
                 ViCareSensor(
@@ -1120,6 +1147,11 @@ class ViCareSensor(ViCareEntity, SensorEntity):
             description.key, device_serial, device_config, device, component
         )
         self.entity_description = description
+
+        callable_name = description.name_fn_getter(component)
+        if callable_name is not None:
+            _LOGGER.error(description.key)
+            self._attr_name = callable_name
 
     @property
     def available(self) -> bool:
