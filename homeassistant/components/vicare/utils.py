@@ -12,6 +12,10 @@ from PyViCare.PyViCareDeviceConfig import PyViCareDeviceConfig
 from PyViCare.PyViCareHeatingDevice import (
     HeatingDeviceWithComponent as PyViCareHeatingDeviceComponent,
 )
+from PyViCare.PyViCareRoomControl import (
+    DeviceWithComponent as PyViCareDeviceComponent,
+    Room as PyViCareRoom,
+)
 from PyViCare.PyViCareUtils import (
     PyViCareInvalidDataError,
     PyViCareNotSupportedFeatureError,
@@ -129,6 +133,15 @@ def get_compressors(device: PyViCareDevice) -> list[PyViCareHeatingDeviceCompone
         _LOGGER.debug("No compressors found: %s", error)
     return []
 
+def get_rooms(device: PyViCareDevice) -> list[PyViCareDeviceComponent]:
+    """Return the list of rooms."""
+    try:
+        return device.rooms
+    except PyViCareNotSupportedFeatureError:
+        _LOGGER.debug("No rooms found")
+    except AttributeError as error:
+        _LOGGER.debug("No rooms found: %s", error)
+    return []
 
 def filter_state(state: str) -> str | None:
     """Return the state if not 'nothing' or 'unknown'."""
